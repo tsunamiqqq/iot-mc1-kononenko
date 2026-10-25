@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt_broker
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./certs:/mosquitto/config/certs
+    restart: unless-stopped
+
+  openhab:
+    image: openhab/openhab:4.3.11
+    container_name: openhab_server
+    user: "root"
+    entrypoint: ["tini", "-s", "./start.sh", "server"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./openhab/conf:/openhab/conf
+      - openhab_userdata:/openhab/userdata
+      - openhab_addons:/openhab/addons
+    restart: unless-stopped
+
+volumes:
+  openhab_userdata:
+  openhab_addons:
