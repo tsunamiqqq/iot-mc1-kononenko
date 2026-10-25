@@ -1,0 +1,57 @@
+var Timer alarmTimer = null
+var Timer lightTimer = null
+
+rule "Keypad PIN entry"
+when
+    Item Keypad_PIN received update
+then
+    if (Keypad_PIN.state.toString == "1234") {
+        Security_Mode.postUpdate("DISARMED")
+        Siren.sendCommand(OFF)
+        if (alarmTimer !== null) {
+            alarmTimer.cancel()
+            alarmTimer = null
+        }
+        logInfo("Security", "Правильний PIN. Систему знято з охорони.")
+    }
+end
+
+rule "Intrusion Detection"
+when
+    Item Door_Sensor changed to "OPEN" or
+    Item Window_1 changed to "OPEN"
+then
+    if (Security_Mode.state.toString == "ARMED") {
+        logInfo("Security", "Проникнення! У вас 10 секунд на введення PIN.")
+        alarmTimer = createTimer(now.plusSeconds(10), [ |
+            if (Security_Mode.state.toString == "ARMED") {
+                Siren.sendCommand(ON)
+            }
+        ])
+    }
+end
+
+rule "Smoke Evacuation"
+when
+    Item Smoke_Detector changed to "ON"
+then
+    Siren.sendCommand(ON)
+    Door_Lock.sendCommand("UNLOCKED")
+    logInfo("Security", "Дим! Сирена увімкнена, замок відчинено.")
+end
+
+rule "Yard Motion Light"
+when
+    Item Motion_Yard changed to "ON"
+then
+    var int hour = now.getHour()
+    if (hour >= 22 || hour < 6) {
+        Yard_Light.sendCommand(ON)
+        if (lightTimer !== null) {
+            lightTimer.cancel()
+        }
+        lightTimer = createTimer(now.plusSeconds(10), [ |
+            Yard_Light.sendCommand(OFF)
+        ])
+    }
+end
