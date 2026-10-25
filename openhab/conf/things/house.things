@@ -1,0 +1,37 @@
+Bridge mqtt:broker:mosquitto "Mosquitto Broker" [ host="mqtt_broker", port=1883, secure=false, username="openhab", password="openhabpass" ] {
+
+    Thing topic door_sensor "Головні двері!" {
+        Channels:
+            Type string : state "Стан" [ stateTopic="house/doors/main/telemetry", transformationPattern="JSONPATH:$.value" ]
+            Type string : status "Статус" [ stateTopic="house/doors/main/status" ]
+    }
+    Thing topic window_1 "Вікно 1" {
+        Channels:
+            Type string : window_1 "Вікно 1" [ stateTopic="house/windows/w1/telemetry", transformationPattern="JSONPATH:$.value" ]    
+    }
+    Thing topic smoke_detector "Датчик диму" {
+        Channels:
+            Type string : state "Стан" [ stateTopic="house/hall/smoke/telemetry", transformationPattern="JSONPATH:$.value" ]
+    }
+    Thing topic keypad "Клавіатура" {
+        Channels:
+            Type string : pin "Введений PIN" [ stateTopic="house/hall/keypad/telemetry", transformationPattern="JSONPATH:$.value" ]
+    }
+    Thing topic motion_yard "Рух подвір'я" {
+        Channels:
+            Type string : state "Стан" [ stateTopic="house/yard/motion/telemetry", transformationPattern="JSONPATH:$.value" ]
+    }
+
+    Thing topic siren "Сирена" {
+        Channels:
+            Type switch : command "Команда" [ commandTopic="house/hall/siren/set", stateTopic="house/hall/siren/state", transformationPattern="JSONPATH:$.state", formatBeforePublish="{\"state\":\"%s\"}" ]
+    }
+    Thing topic lock "Замок" {
+        Channels:
+            Type string : command "Команда" [ commandTopic="house/doors/lock/set", stateTopic="house/doors/lock/state", transformationPattern="JSONPATH:$.state", formatBeforePublish="{\"state\":\"%s\"}" ]
+    }
+    Thing topic yard_light "Світло на подвір'ї" {
+        Channels:
+            Type switch : command "Команда" [ commandTopic="house/yard/light/set", stateTopic="house/yard/light/state", transformationPattern="JSONPATH:$.state", formatBeforePublish="{\"state\":\"%s\"}" ]
+    }
+}

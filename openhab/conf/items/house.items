@@ -1,0 +1,9 @@
+String Security_Mode "Режим охорони"
+String Door_Sensor "Двері [%s]" { channel="mqtt:topic:mosquitto:door_sensor:state" }
+String Window_1 "Вікно 1 [%s]" { channel="mqtt:topic:mosquitto:window_1:window_1" }
+String Smoke_Detector "Датчик диму [%s]" { channel="mqtt:topic:mosquitto:smoke_detector:state" }
+String Keypad_PIN "Введений PIN" { channel="mqtt:topic:mosquitto:keypad:pin" }
+String Motion_Yard "Рух на подвір'ї [%s]" { channel="mqtt:topic:mosquitto:motion_yard:state" }
+Switch Siren "Сирена" { channel="mqtt:topic:mosquitto:siren:command" }
+String Door_Lock "Замок" { channel="mqtt:topic:mosquitto:lock:command" }
+Switch Yard_Light "Світло на подвір'ї" { channel="mqtt:topic:mosquitto:yard_light:command" }
