@@ -1,0 +1,16 @@
+sitemap house label="Охоронна система" {
+    Frame label="Керування" {
+        Switch item=Security_Mode mappings=[ARMED="Охорона", DISARMED="Вдома"]
+    }
+    Frame label="Сенсори" {
+        Text item=Door_Sensor
+        Text item=Window_1
+        Text item=Smoke_Detector
+        Text item=Motion_Yard
+    }
+    Frame label="Актуатори" {
+        Switch item=Siren
+        Switch item=Yard_Light
+        Text item=Door_Lock
+    }
+}

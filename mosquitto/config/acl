@@ -1,0 +1,42 @@
+user admin
+topic readwrite 
+
+user openhab
+topic read house/#
+topic write house/+/+/set
+
+user window_1
+topic write house/windows/w1/telemetry
+topic write house/windows/w1/status
+
+user smoke_detector
+topic write house/hall/smoke/telemetry
+topic write house/hall/smoke/status
+
+user keypad
+topic write house/hall/keypad/telemetry
+topic write house/hall/keypad/status
+topic write house/security/mode/set
+
+user motion_yard
+topic write house/yard/motion/telemetry
+topic write house/yard/motion/status
+
+user door_sensor
+topic write house/doors/main/telemetry
+topic write house/doors/main/status
+
+user yard_light
+topic read house/yard/light/set
+topic write house/yard/light/state
+topic write house/yard/light/status
+
+user siren
+topic read house/hall/siren/set
+topic write house/hall/siren/state
+topic write house/hall/siren/status
+
+user lock
+topic read house/doors/lock/set
+topic write house/doors/lock/state
+topic write house/doors/lock/status
